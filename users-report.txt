@@ -1,0 +1,26 @@
+﻿Executing (default): SELECT 1+1 AS result
+Γ£à Connected to database
+
+Executing (default): SELECT `id`, `name`, `email`, `role`, `is_active`, `last_login`, `created_at` FROM `users` AS `User`;
+================================================================================
+USER DATABASE REPORT
+================================================================================
+
+Total Users: 1
+
+
+--- USER 1 ---
+ID:           1
+Name:         Martin Omondo
+Email:        lazymilionaire94@gmaill.com
+Role:         user
+Active:       Yes
+Last Login:   Never
+Created:      Sun Dec 07 2025 13:42:13 GMT+0300 (East Africa Time)
+
+================================================================================
+
+≡ƒô¥ NOTE: Passwords are stored as bcrypt hashes for security.
+   They cannot be retrieved in plain text.
+   Use the password reset feature to change a user password.
+

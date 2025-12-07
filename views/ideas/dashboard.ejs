@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> | AI Idea Expander
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <%- include('../partials/navbar') %>
+
+        <main class="flex-grow-1 py-4">
+            <%- include('../partials/flash-messages') %>
+
+                <div class="container-fluid">
+                    <!-- Stats Cards -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="card border-0 shadow-sm h-100 stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted mb-1 small">Total Ideas</p>
+                                            <h3 class="fw-bold mb-0">
+                                                <%= stats.total %>
+                                            </h3>
+                                        </div>
+                                        <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-circle">
+                                            <i class="bi bi-lightbulb-fill fs-3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-0 shadow-sm h-100 stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted mb-1 small">Expanded</p>
+                                            <h3 class="fw-bold mb-0 text-success">
+                                                <%= stats.expanded %>
+                                            </h3>
+                                        </div>
+                                        <div class="stat-icon bg-success bg-opacity-10 text-success rounded-circle">
+                                            <i class="bi bi-check-circle-fill fs-3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-0 shadow-sm h-100 stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted mb-1 small">Drafts</p>
+                                            <h3 class="fw-bold mb-0 text-warning">
+                                                <%= stats.drafts %>
+                                            </h3>
+                                        </div>
+                                        <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-circle">
+                                            <i class="bi bi-pencil-fill fs-3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-0 shadow-sm h-100 stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted mb-1 small">Favorites</p>
+                                            <h3 class="fw-bold mb-0 text-danger">
+                                                <%= stats.favorites %>
+                                            </h3>
+                                        </div>
+                                        <div class="stat-icon bg-danger bg-opacity-10 text-danger rounded-circle">
+                                            <i class="bi bi-heart-fill fs-3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters and Actions -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <form method="GET" action="/ideas/dashboard" class="row g-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="search"
+                                                placeholder="Search ideas..." value="<%= filters.search %>">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-select" name="status">
+                                                <option value="">All Status</option>
+                                                <option value="draft" <%=filters.status==='draft' ? 'selected' : '' %>
+                                                    >Drafts</option>
+                                                <option value="expanded" <%=filters.status==='expanded' ? 'selected'
+                                                    : '' %>>Expanded</option>
+                                                <option value="archived" <%=filters.status==='archived' ? 'selected'
+                                                    : '' %>>Archived</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="bi bi-search"></i> Search
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <a href="/ideas/create" class="btn btn-success">
+                                        <i class="bi bi-plus-circle-fill me-2"></i>New Idea
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ideas Grid -->
+                    <% if (ideas.length===0) { %>
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox text-muted" style="font-size: 5rem;"></i>
+                            <h3 class="mt-3 text-muted">No ideas found</h3>
+                            <p class="text-muted">Start by creating your first idea!</p>
+                            <a href="/ideas/create" class="btn btn-primary btn-lg mt-3">
+                                <i class="bi bi-plus-circle-fill me-2"></i>Create Your First Idea
+                            </a>
+                        </div>
+                        <% } else { %>
+                            <div class="row g-4">
+                                <% ideas.forEach(idea=> { %>
+                                    <div class="col-md-4">
+                                        <div class="card idea-card border-0 shadow-sm h-100 hover-lift">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                                    <span
+                                                        class="badge <%= idea.status === 'expanded' ? 'bg-success' : idea.status === 'draft' ? 'bg-warning' : 'bg-secondary' %>">
+                                                        <%= idea.status.toUpperCase() %>
+                                                    </span>
+                                                    <button class="btn btn-sm btn-link favorite-btn p-0"
+                                                        data-idea-id="<%= idea.id %>"
+                                                        data-favorite="<%= idea.is_favorite %>">
+                                                        <i
+                                                            class="bi <%= idea.is_favorite ? 'bi-heart-fill text-danger' : 'bi-heart' %>"></i>
+                                                    </button>
+                                                </div>
+
+                                                <h5 class="card-title fw-bold mb-2">
+                                                    <a href="/ideas/<%= idea.id %>"
+                                                        class="text-decoration-none text-dark">
+                                                        <%= idea.title %>
+                                                    </a>
+                                                </h5>
+
+                                                <p class="card-text text-muted small">
+                                                    <%= idea.raw_idea.length> 120 ? idea.raw_idea.substring(0, 120) +
+                                                        '...' : idea.raw_idea %>
+                                                </p>
+
+                                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-clock me-1"></i>
+                                                        <%= new Date(idea.created_at).toLocaleDateString() %>
+                                                    </small>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="/ideas/<%= idea.id %>" class="btn btn-outline-primary">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                        <% if (idea.status==='draft' ) { %>
+                                                            <a href="/ideas/<%= idea.id %>/expand"
+                                                                class="btn btn-outline-success">
+                                                                <i class="bi bi-stars"></i>
+                                                            </a>
+                                                            <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                            </div>
+
+                            <!-- Pagination -->
+                            <% if (pagination.totalPages> 1) { %>
+                                <nav class="mt-4">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item <%= pagination.currentPage === 1 ? 'disabled' : '' %>">
+                                            <a class="page-link"
+                                                href="?page=<%= pagination.currentPage - 1 %>&search=<%= filters.search %>&status=<%= filters.status %>">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <% for (let i=1; i <=pagination.totalPages; i++) { %>
+                                            <li class="page-item <%= i === pagination.currentPage ? 'active' : '' %>">
+                                                <a class="page-link"
+                                                    href="?page=<%= i %>&search=<%= filters.search %>&status=<%= filters.status %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                                <li
+                                                    class="page-item <%= pagination.currentPage === pagination.totalPages ? 'disabled' : '' %>">
+                                                    <a class="page-link"
+                                                        href="?page=<%= pagination.currentPage + 1 %>&search=<%= filters.search %>&status=<%= filters.status %>">
+                                                        Next
+                                                    </a>
+                                                </li>
+                                    </ul>
+                                </nav>
+                                <% } %>
+                                    <% } %>
+                </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+﻿
+≡ƒöì Testing DeepSeek API Connection...
+
+API Key: sk-96471d6...3bcc
+API URL: https://api.deepseek.com/v1/chat/completions
+Model: deepseek-chat
+
+Γ¥î API Error: Insufficient Balance
+Status: 402
+Full response: {
+  "error": {
+    "message": "Insufficient Balance",
+    "type": "unknown_error",
+    "param": null,
+    "code": "invalid_request_error"
+  }
+}
+
+

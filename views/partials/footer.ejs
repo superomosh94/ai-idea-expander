@@ -1,0 +1,48 @@
+<footer class="bg-dark text-light py-5 mt-auto">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold">
+                    <i class="bi bi-lightbulb-fill text-warning"></i>
+                    AI Idea Expander
+                </h5>
+                <p class="text-muted">
+                    Transform your ideas into comprehensive business plans with AI-powered insights.
+                </p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h6 class="fw-bold">Quick Links</h6>
+                <ul class="list-unstyled">
+                    <li><a href="/" class="text-muted text-decoration-none">Home</a></li>
+                    <% if (isAuthenticated) { %>
+                        <li><a href="/ideas/dashboard" class="text-muted text-decoration-none">Dashboard</a></li>
+                        <li><a href="/ideas/create" class="text-muted text-decoration-none">Create Idea</a></li>
+                        <% } else { %>
+                            <li><a href="/auth/login" class="text-muted text-decoration-none">Login</a></li>
+                            <li><a href="/auth/register" class="text-muted text-decoration-none">Register</a></li>
+                            <% } %>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h6 class="fw-bold">Powered By</h6>
+                <p class="text-muted">
+                    <i class="bi bi-cpu-fill text-info"></i> DeepSeek AI<br>
+                    Advanced language model for idea expansion
+                </p>
+            </div>
+        </div>
+        <hr class="bg-secondary">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text-muted mb-0">
+                    &copy; <%= new Date().getFullYear() %> AI Idea Expander. All rights reserved.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="text-muted mb-0">
+                    Made with <i class="bi bi-heart-fill text-danger"></i> using Node.js & Express
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

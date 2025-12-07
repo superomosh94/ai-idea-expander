@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | AI Idea Expander</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <%- include('../partials/navbar') %>
+
+        <main class="flex-grow-1 d-flex align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-compass" style="font-size: 8rem; color: var(--primary-color);"></i>
+                        </div>
+                        <h1 class="display-1 fw-bold text-primary">404</h1>
+                        <h2 class="fw-bold mb-3">Page Not Found</h2>
+                        <p class="lead text-muted mb-4">
+                            Oops! The page you're looking for doesn't exist.
+                            It might have been moved or deleted.
+                        </p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="/" class="btn btn-primary btn-lg">
+                                <i class="bi bi-house-fill me-2"></i>Go Home
+                            </a>
+                            <% if (isAuthenticated) { %>
+                                <a href="/ideas/dashboard" class="btn btn-outline-primary btn-lg">
+                                    <i class="bi bi-grid-fill me-2"></i>Dashboard
+                                </a>
+                                <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

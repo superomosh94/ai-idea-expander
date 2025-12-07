@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> | AI Idea Expander
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <%- include('../partials/navbar') %>
+
+        <main class="flex-grow-1 py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <%- include('../partials/flash-messages') %>
+
+                            <div class="card border-0 shadow-lg">
+                                <div class="card-header bg-success text-white py-4">
+                                    <h2 class="mb-0 fw-bold">
+                                        <i class="bi bi-stars me-2"></i>Expand Your Idea with AI
+                                    </h2>
+                                    <p class="mb-0 mt-2 opacity-75">Let DeepSeek AI generate comprehensive insights</p>
+                                </div>
+                                <div class="card-body p-5">
+                                    <!-- Idea Preview -->
+                                    <div class="alert alert-info border-0 mb-4">
+                                        <h5 class="fw-bold mb-2">
+                                            <i class="bi bi-lightbulb-fill me-2"></i>
+                                            <%= idea.title %>
+                                        </h5>
+                                        <p class="mb-0">
+                                            <%= idea.raw_idea %>
+                                        </p>
+                                    </div>
+
+                                    <!-- What Will Happen -->
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="bi bi-cpu-fill text-primary me-2"></i>AI Will Generate:
+                                        </h5>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>🎯 Problem Statement</strong>
+                                                        <p class="text-muted small mb-0">Clear definition of the problem
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>👥 Target Users</strong>
+                                                        <p class="text-muted small mb-0">Identification of ideal users
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>⚡ Core Features</strong>
+                                                        <p class="text-muted small mb-0">Essential functionality
+                                                            recommendations</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>🔄 User Workflow</strong>
+                                                        <p class="text-muted small mb-0">How users will interact</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>⚠️ Risks & Challenges</strong>
+                                                        <p class="text-muted small mb-0">Potential obstacles and
+                                                            solutions</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-start">
+                                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                                    <div>
+                                                        <strong>📊 Success Metrics</strong>
+                                                        <p class="text-muted small mb-0">KPIs to measure success</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Warnings -->
+                                    <div class="alert alert-warning border-0 mb-4">
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        <strong>Note:</strong> This process may take 10-30 seconds. Please don't close
+                                        this page.
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <form method="POST" action="/ideas/<%= idea.id %>/expand">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                        <div class="d-flex gap-3">
+                                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                                <i class="bi bi-stars me-2"></i>Expand with AI
+                                            </button>
+                                            <a href="/ideas/<%= idea.id %>"
+                                                class="btn btn-outline-secondary btn-lg px-4">
+                                                Cancel
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Info Card -->
+                            <div class="card border-0 shadow-sm mt-4">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="bi bi-shield-check text-success me-2"></i>Powered by DeepSeek AI
+                                    </h6>
+                                    <p class="text-muted small mb-0">
+                                        We use advanced AI technology to analyze your idea from multiple perspectives.
+                                        The analysis is generated based on industry best practices and strategic
+                                        thinking frameworks.
+                                    </p>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="/js/main.js"></script>
+</body>
+
+</html>
