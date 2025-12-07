@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> | AI Idea Expander
+    </title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <%- include('../partials/navbar') %>
+
+        <main class="flex-grow-1 py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h3 fw-bold mb-0">System Statistics</h1>
+                        <p class="text-muted">Overview of system performance and usage</p>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Statistics</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- User Statistics -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="mb-3 fw-bold text-gray-800">User Statistics</h4>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm border-start border-4 border-primary">
+                            <div class="card-body">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Total Users</h6>
+                                <h2 class="mb-0 fw-bold">
+                                    <%= userStats.total || 0 %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm border-start border-4 border-success">
+                            <div class="card-body">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Active Users</h6>
+                                <h2 class="mb-0 fw-bold">
+                                    <%= userStats.active || 0 %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm border-start border-4 border-danger">
+                            <div class="card-body">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Inactive Users</h6>
+                                <h2 class="mb-0 fw-bold">
+                                    <%= userStats.inactive || 0 %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm border-start border-4 border-purple">
+                            <div class="card-body">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Admins</h6>
+                                <h2 class="mb-0 fw-bold">
+                                    <%= userStats.admins || 0 %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Idea Statistics -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="mb-3 fw-bold text-gray-800">Idea Statistics</h4>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="avatar-circle-lg bg-primary bg-opacity-10 text-primary mx-auto mb-3">
+                                    <i class="bi bi-lightbulb-fill fs-3"></i>
+                                </div>
+                                <h6 class="text-muted fw-bold">Total Ideas</h6>
+                                <h3 class="fw-bold">
+                                    <%= ideaStats.total || 0 %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="avatar-circle-lg bg-success bg-opacity-10 text-success mx-auto mb-3">
+                                    <i class="bi bi-check-circle-fill fs-3"></i>
+                                </div>
+                                <h6 class="text-muted fw-bold">Expanded</h6>
+                                <h3 class="fw-bold">
+                                    <%= ideaStats.completed || 0 %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="avatar-circle-lg bg-secondary bg-opacity-10 text-secondary mx-auto mb-3">
+                                    <i class="bi bi-pencil-fill fs-3"></i>
+                                </div>
+                                <h6 class="text-muted fw-bold">Drafts</h6>
+                                <h3 class="fw-bold">
+                                    <%= ideaStats.pending || 0 %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="avatar-circle-lg bg-danger bg-opacity-10 text-danger mx-auto mb-3">
+                                    <i class="bi bi-exclamation-triangle-fill fs-3"></i>
+                                </div>
+                                <h6 class="text-muted fw-bold">Failed Generations</h6>
+                                <h3 class="fw-bold">
+                                    <%= ideaStats.failed || 0 %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Statistics -->
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mb-3 fw-bold text-gray-800">API Usage</h4>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-circle bg-info bg-opacity-10 text-info me-3">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    </div>
+                                    <h6 class="mb-0 fw-bold">Total Calls</h6>
+                                </div>
+                                <h2 class="mb-1 fw-bold">
+                                    <%= apiStats.total_calls || 0 %>
+                                </h2>
+                                <small class="text-muted">Lifetime API requests</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-circle bg-warning bg-opacity-10 text-warning me-3">
+                                        <i class="bi bi-coin"></i>
+                                    </div>
+                                    <h6 class="mb-0 fw-bold">Token Usage</h6>
+                                </div>
+                                <h2 class="mb-1 fw-bold">
+                                    <%= apiStats.total_tokens || 0 %>
+                                </h2>
+                                <small class="text-muted">Total tokens consumed</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-circle bg-success bg-opacity-10 text-success me-3">
+                                        <i class="bi bi-speedometer2"></i>
+                                    </div>
+                                    <h6 class="mb-0 fw-bold">Avg Response Time</h6>
+                                </div>
+                                <h2 class="mb-1 fw-bold">
+                                    <%= Math.round(apiStats.avg_response_time || 0) %> ms
+                                </h2>
+                                <small class="text-muted">Average latency per call</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

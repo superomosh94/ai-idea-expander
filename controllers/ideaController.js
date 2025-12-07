@@ -14,7 +14,7 @@ exports.showDashboard = asyncHandler(async (req, res) => {
     const limit = 12;
     const offset = (page - 1) * limit;
 
-    const search = req.query.search || '';
+    const search = req.query.search ? req.query.search.trim() : '';
     const status = req.query.status || '';
 
     const result = await ideaService.getUserIdeas(userId, {
@@ -50,11 +50,53 @@ exports.showDashboard = asyncHandler(async (req, res) => {
 
 // Show create idea form
 exports.showCreateForm = (req, res) => {
+    // Check if we have pre-filled data from generator (query params)
+    const { title, raw_idea } = req.query;
+
     res.render('ideas/create', {
         title: 'Create New Idea',
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        // Initialize formData with query params if available, or empty object
+        formData: title || raw_idea ? { title, raw_idea } : {},
+        // If coming from generator, show success indicator
+        generated: !!(title || raw_idea)
     });
 };
+
+// Show generator form
+exports.showGenerator = (req, res) => {
+    res.render('ideas/generator', {
+        title: 'AI Idea Generator',
+        csrfToken: req.csrfToken(),
+        ideas: null,
+        context: ''
+    });
+};
+
+// Handle idea generation
+exports.handleGenerateIdeas = asyncHandler(async (req, res) => {
+    const { context } = req.body;
+    const groqService = require('../services/groqService');
+
+    if (!context || context.trim().length === 0) {
+        req.flash('error', 'Please provide a context or field.');
+        return res.redirect('/ideas/generate');
+    }
+
+    try {
+        const ideas = await groqService.generateIdeasFromContext(context);
+
+        res.render('ideas/generator', {
+            title: 'AI Idea Generator',
+            csrfToken: req.csrfToken(),
+            ideas,
+            context
+        });
+    } catch (error) {
+        req.flash('error', 'Failed to generate ideas. Please try again.');
+        res.redirect('/ideas/generate');
+    }
+});
 
 // Create new idea
 exports.createIdea = asyncHandler(async (req, res) => {
@@ -197,7 +239,18 @@ exports.updateIdea = asyncHandler(async (req, res) => {
         raw_idea: raw_idea ? raw_idea.trim() : undefined
     });
 
-    req.flash('success', 'Idea updated successfully');
+    // Check if re-expansion was requested
+    if (req.body.reexpand === 'true') {
+        try {
+            await ideaService.expandIdea(ideaId, userId);
+            req.flash('success', 'Idea updated and re-expanded successfully!');
+        } catch (error) {
+            req.flash('warning', 'Idea updated, but AI re-expansion failed: ' + error.message);
+        }
+    } else {
+        req.flash('success', 'Idea updated successfully');
+    }
+
     res.redirect(`/ideas/${ideaId}`);
 });
 

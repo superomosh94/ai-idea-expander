@@ -9,10 +9,15 @@ const csrfProtection = csrf({ cookie: true });
 // All idea routes require authentication
 router.use(requireAuth);
 
+// Idea Generator
+router.get('/generate', csrfProtection, ideaController.showGenerator);
+router.post('/generate', csrfProtection, ideaController.handleGenerateIdeas);
+
 // Dashboard
 router.get('/dashboard', ideaController.showDashboard);
 
 // Create idea
+
 router.get('/create', csrfProtection, ideaController.showCreateForm);
 router.post('/create', csrfProtection, ideaController.createIdea);
 

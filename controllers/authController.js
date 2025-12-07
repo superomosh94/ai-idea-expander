@@ -148,6 +148,11 @@ exports.login = asyncHandler(async (req, res) => {
     };
 
     req.flash('success', `Welcome back, ${user.name}!`);
+    console.log('User Role:', user.role); // Debugging log
+    if (user.role === 'admin') {
+        return res.redirect('/admin/dashboard');
+    }
+
     res.redirect('/ideas/dashboard');
 });
 

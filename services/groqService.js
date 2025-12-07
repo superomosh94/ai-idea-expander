@@ -246,6 +246,66 @@ Provide a comprehensive analysis using the structured format with all six sectio
             };
         }
     }
+
+
+    /**
+     * Generate a random business idea
+     */
+    /**
+     * Generate a list of business ideas based on context
+     */
+    async generateIdeasFromContext(context, count = 3) {
+        try {
+            if (!this.apiKey) {
+                throw new Error('Groq API key is not configured');
+            }
+
+            const prompt = `Generate ${count} unique and innovative startup business ideas based on the following context/field: "${context}".
+            
+            Return ONLY a valid JSON array of objects with the following structure, and NO other text:
+            [
+                {
+                    "title": "Catchy name",
+                    "description": "2-3 sentences describing value proposition"
+                }
+            ]`;
+
+            const completion = await this.client.chat.completions.create({
+                model: this.model,
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'You are a creative startup incubator assistant. You generate innovative business ideas based on specific contexts. You must output strictly valid JSON array.'
+                    },
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
+                max_tokens: 1000,
+                temperature: 0.8,
+                response_format: { type: "json_object" }
+            });
+
+            const content = completion.choices[0].message.content;
+            const parsed = JSON.parse(content);
+            // Handle if the API returns an object with a key 'ideas' or just the array
+            return Array.isArray(parsed) ? parsed : (parsed.ideas || [parsed]);
+        } catch (error) {
+            console.error('Error generating ideas from context:', error);
+            // Fallback ideas if AI fails
+            return [
+                {
+                    title: 'Contextual AI Assistant',
+                    description: 'An AI assistant that adapts to your specific field context, providing tailored suggestions and workflows.'
+                },
+                {
+                    title: 'Smart Project Manager',
+                    description: 'A project management tool that uses AI to predict bottlenecks and suggest resource allocation based on team velocity.'
+                }
+            ];
+        }
+    }
 }
 
 module.exports = new GroqService();

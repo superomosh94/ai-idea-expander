@@ -54,11 +54,26 @@
                                         </div>
 
                                         <% if (idea.status==='expanded' ) { %>
-                                            <div class="alert alert-warning border-0">
-                                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                                <strong>Note:</strong> Editing will not automatically re-expand your
-                                                idea.
-                                                You can manually expand it again after saving changes.
+                                            <div class="alert alert-warning border-0 mb-4">
+                                                <div class="d-flex">
+                                                    <i class="bi bi-exclamation-triangle-fill me-3 mt-1"></i>
+                                                    <div>
+                                                        <strong>Note:</strong> Editing will preserve existing AI
+                                                        analysis unless you choose to re-expand.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-check mb-4 p-3 border rounded bg-light">
+                                                <input class="form-check-input" type="checkbox" id="reexpand"
+                                                    name="reexpand" value="true">
+                                                <label class="form-check-label fw-semibold text-primary" for="reexpand">
+                                                    <i class="bi bi-magic me-2"></i>Re-expand this idea with AI
+                                                </label>
+                                                <div class="form-text mt-1 ms-4">
+                                                    Check this to regenerate the AI analysis based on your new
+                                                    description. Previous analysis will be overwritten.
+                                                </div>
                                             </div>
                                             <% } %>
 

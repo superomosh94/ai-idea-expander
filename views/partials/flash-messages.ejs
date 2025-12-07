@@ -26,15 +26,21 @@
                     <div class="container mt-3">
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <strong>Please fix the following errors:</strong>
-                            <ul class="mb-0 mt-2">
-                                <% errors.forEach(function(err) { %>
-                                    <li>
-                                        <%= err %>
-                                    </li>
-                                    <% }); %>
-                            </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <% if (errors.length===1) { %>
+                                <strong>
+                                    <%= errors[0] %>
+                                </strong>
+                                <% } else { %>
+                                    <strong>Please fix the following errors:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        <% errors.forEach(function(err) { %>
+                                            <li>
+                                                <%= err %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     </div>
                     <% } %>
