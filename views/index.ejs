@@ -8,6 +8,7 @@
     <title>
         <%= title %> | AI Idea Expander
     </title>
+    <link rel="icon" type="image/png" href="/favicon.png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
@@ -20,67 +21,62 @@
     <%- include('partials/navbar') %>
 
         <!-- Hero Section -->
-        <section class="hero-section bg-gradient text-white py-5">
-            <div class="container py-5">
+        <section class="hero-section bg-white py-5 position-relative overflow-hidden">
+            <!-- Decorative background elements -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none"
+                style="background: radial-gradient(circle at 10% 20%, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 90%); z-index: 0; opacity: 0.1;">
+            </div>
+
+            <div class="container py-5 position-relative" style="z-index: 1;">
                 <div class="row align-items-center">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <h1 class="display-3 fw-bold mb-4 animate-fade-in">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <span
+                            class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-semibold border border-primary border-opacity-10">
+                            <i class="bi bi-stars me-1"></i> AI-Powered Business Planning
+                        </span>
+                        <h1 class="display-3 fw-bold mb-4 animate-fade-in text-dark lh-sm">
                             Transform Ideas into
-                            <span class="text-warning">Reality</span>
+                            <span class="text-gradient d-block">Digital Reality</span>
                         </h1>
-                        <p class="lead mb-4">
-                            Harness the power of AI to expand your ideas into comprehensive business plans.
-                            Get structured insights on problems, users, features, and success metrics.
+                        <p class="lead mb-4 text-muted" style="font-size: 1.2rem;">
+                            Leverage cutting-edge DeepSeek AI technology to transform raw concepts into
+                            fully-structured business frameworks. Get comprehensive insights on
+                            problem-solution fit, target markets, workflows, and success metrics.
                         </p>
-                        <div class="d-flex gap-3">
+                        <div class="d-flex gap-3 flex-wrap">
                             <% if (isAuthenticated) { %>
-                                <a href="/ideas/create" class="btn btn-warning btn-lg px-4 shadow-lg">
+                                <a href="/ideas/create" class="btn btn-primary btn-lg px-4 shadow-lg hover-lift">
                                     <i class="bi bi-plus-circle-fill me-2"></i>Create Your First Idea
                                 </a>
-                                <a href="/ideas/dashboard" class="btn btn-outline-light btn-lg px-4">
+                                <a href="/ideas/dashboard" class="btn btn-outline-secondary btn-lg px-4">
                                     View Dashboard
                                 </a>
                                 <% } else { %>
-                                    <a href="/auth/register" class="btn btn-warning btn-lg px-4 shadow-lg">
+                                    <a href="/auth/register" class="btn btn-primary btn-lg px-4 shadow-lg hover-lift">
                                         <i class="bi bi-rocket-takeoff-fill me-2"></i>Get Started Free
                                     </a>
-                                    <a href="/auth/login" class="btn btn-outline-light btn-lg px-4">
+                                    <a href="/auth/login" class="btn btn-outline-secondary btn-lg px-4">
                                         Sign In
                                     </a>
                                     <% } %>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="hero-illustration">
-                            <div class="card shadow-lg border-0 bg-white text-dark">
-                                <div class="card-body p-4">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <i class="bi bi-lightbulb-fill text-warning fs-1 me-3"></i>
-                                        <div>
-                                            <h5 class="mb-0">AI-Powered Analysis</h5>
-                                            <small class="text-muted">DeepSeek Technology</small>
-                                        </div>
-                                    </div>
-                                    <div class="feature-list">
-                                        <div class="d-flex align-items-start mb-2">
-                                            <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                            <span>Problem Statement Analysis</span>
-                                        </div>
-                                        <div class="d-flex align-items-start mb-2">
-                                            <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                            <span>Target User Identification</span>
-                                        </div>
-                                        <div class="d-flex align-items-start mb-2">
-                                            <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                            <span>Feature Recommendations</span>
-                                        </div>
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                            <span>Success Metrics & KPIs</span>
-                                        </div>
-                                    </div>
-                                </div>
+
+                        <div class="mt-4 pt-3 d-flex align-items-center gap-4 text-muted small">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i> No credit card required
                             </div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i> Free tier available
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                        <div class="hero-image-container position-relative animate-fade-in">
+                            <div class="position-absolute top-50 start-50 translate-middle w-75 h-75 bg-primary rounded-circle opacity-10 filter-blur-xl"
+                                style="filter: blur(60px); z-index: -1;"></div>
+                            <img src="/images/hero-illustration.png" alt="AI Idea Expansion Illustration"
+                                class="img-fluid position-relative"
+                                style="max-height: 500px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));">
                         </div>
                     </div>
                 </div>
@@ -104,8 +100,11 @@
                                 </div>
                                 <h4 class="fw-bold mb-3">AI-Powered Expansion</h4>
                                 <p class="text-muted">
-                                    Advanced DeepSeek AI analyzes your idea and generates comprehensive insights across
-                                    multiple dimensions.
+                                    Harness the power of DeepSeek's advanced language model to automatically
+                                    generate comprehensive business analysis. Our AI engine processes natural
+                                    language descriptions and produces structured, actionable insights covering
+                                    problem statements, target audiences, feature sets, workflows, risk factors,
+                                    and KPIs—eliminating hours of manual research and brainstorming.
                                 </p>
                             </div>
                         </div>
@@ -117,10 +116,16 @@
                                     style="width: 80px; height: 80px;">
                                     <i class="bi bi-diagram-3-fill fs-2"></i>
                                 </div>
-                                <h4 class="fw-bold mb-3">Structured Analysis</h4>
+                                <h4 class="fw-bold mb-3">Structured Analysis Framework</h4>
                                 <p class="text-muted">
-                                    Get organized insights with problem statements, target users, core features,
-                                    workflows, risks, and metrics.
+                                    Every idea is analyzed through our proprietary six-pillar framework:
+                                    <strong>Problem Definition</strong> (identifying the core issue),
+                                    <strong>User Personas</strong> (target market segmentation),
+                                    <strong>Feature Architecture</strong> (MVP and future capabilities),
+                                    <strong>User Workflows</strong> (journey mapping),
+                                    <strong>Risk Analysis</strong> (technical and market challenges), and
+                                    <strong>Success Metrics</strong> (measurable KPIs). This ensures no critical
+                                    business aspect is overlooked.
                                 </p>
                             </div>
                         </div>
@@ -132,10 +137,14 @@
                                     style="width: 80px; height: 80px;">
                                     <i class="bi bi-save-fill fs-2"></i>
                                 </div>
-                                <h4 class="fw-bold mb-3">Save & Organize</h4>
+                                <h4 class="fw-bold mb-3">Enterprise-Grade Organization</h4>
                                 <p class="text-muted">
-                                    Store all your expanded ideas in one place. Search, filter, and manage your
-                                    innovation portfolio effortlessly.
+                                    Maintain a centralized repository of all analyzed ideas with full-text search,
+                                    tag-based filtering, and chronological tracking. Each idea is stored with complete
+                                    metadata including creation timestamp, expansion status, and user notes. Export
+                                    capabilities allow you to generate PDF reports or share insights with stakeholders.
+                                    Perfect for entrepreneurs managing multiple projects or innovation teams tracking
+                                    concept pipelines.
                                 </p>
                             </div>
                         </div>
@@ -144,8 +153,265 @@
             </div>
         </section>
 
+        <!-- What You Get Section - Detailed Breakdown -->
+        <section class="py-5 bg-white">
+            <div class="container py-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Comprehensive Business Intelligence</h2>
+                    <p class="lead text-muted">Six critical dimensions of analysis, delivered instantly</p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <!-- Problem Statement -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-exclamation-triangle-fill text-primary fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">1. Problem Statement Analysis</h4>
+                                        <small class="text-muted">Market Pain Point Identification</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Our AI dissects your concept to identify and articulate the core problem your
+                                    idea solves. This includes analyzing market gaps, user frustrations, and existing
+                                    solution inadequacies. You'll receive a clear, concise problem statement that
+                                    can be used in pitch decks, business plans, or investor presentations.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Root cause
+                                        analysis</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Market
+                                        context evaluation</li>
+                                    <li class="mb-2"><i
+                                            class="bi bi-check-circle-fill text-primary me-2"></i>Problem-solution
+                                        alignment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Users -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-success bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-people-fill text-success fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">2. Target User Identification</h4>
+                                        <small class="text-muted">User Persona Development</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Receive detailed user personas identifying who will benefit most from your
+                                    solution. The analysis includes demographic data, behavioral patterns, pain points,
+                                    goals, and motivations. This segmentation helps you understand your ideal customer
+                                    profile and tailor your product development accordingly.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i
+                                            class="bi bi-check-circle-fill text-success me-2"></i>Demographic profiling
+                                    </li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Behavioral
+                                        characteristics</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Market
+                                        segment sizing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Features -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-warning bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-grid-fill text-warning fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">3. Feature Recommendations</h4>
+                                        <small class="text-muted">Product Roadmap Planning</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Get a prioritized feature list distinguishing between MVP (Minimum Viable Product)
+                                    essentials and future enhancements. Each feature includes rationale, user value
+                                    proposition, and implementation complexity estimates. This helps you build a
+                                    realistic development roadmap and prevents scope creep.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i>MVP vs.
+                                        future feature split</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i>Priority
+                                        ranking system</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i>Technical
+                                        feasibility assessment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Workflow -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-info bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-arrow-right-circle-fill text-info fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">4. User Workflow Mapping</h4>
+                                        <small class="text-muted">Journey & Experience Design</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Visualize the complete user journey from initial awareness to ongoing engagement.
+                                    The workflow analysis maps key touchpoints, decision points, and interaction
+                                    patterns. This helps identify UX bottlenecks, optimize conversion funnels, and
+                                    ensure seamless user experience across all stages.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i>Step-by-step
+                                        journey mapping</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i>Touchpoint
+                                        identification</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i>Friction
+                                        point analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Assessment -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-danger bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-shield-exclamation-fill text-danger fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">5. Risk Analysis & Mitigation</h4>
+                                        <small class="text-muted">Challenge Identification</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Proactively identify potential obstacles across technical, market, and operational
+                                    dimensions. Each risk is categorized by severity and likelihood, accompanied by
+                                    actionable mitigation strategies. This foresight helps you prepare contingency
+                                    plans and address investor concerns before they arise.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-danger me-2"></i>Technical
+                                        implementation risks</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-danger me-2"></i>Market
+                                        competition analysis</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-danger me-2"></i>Mitigation
+                                        strategy planning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Success Metrics -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-secondary bg-opacity-10 rounded p-3 me-3">
+                                        <i class="bi bi-graph-up-arrow text-secondary fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold mb-2">6. Success Metrics & KPIs</h4>
+                                        <small class="text-muted">Performance Measurement</small>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-3">
+                                    Define measurable success criteria with specific, quantifiable KPIs across growth,
+                                    engagement, revenue, and operational excellence. These metrics provide clear
+                                    benchmarks for tracking progress, validating assumptions, and demonstrating ROI
+                                    to stakeholders. Includes both leading and lagging indicators.
+                                </p>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i
+                                            class="bi bi-check-circle-fill text-secondary me-2"></i>Quantifiable
+                                        performance indicators</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-secondary me-2"></i>Growth
+                                        milestone tracking</li>
+                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-secondary me-2"></i>Revenue
+                                        and engagement metrics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Capabilities -->
+                <div class="row g-4 mt-4">
+                    <div class="col-12">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body p-5">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-3 text-center mb-4 mb-lg-0">
+                                        <i class="bi bi-cpu-fill text-primary" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <h3 class="fw-bold mb-3">Powered by Advanced AI Technology</h3>
+                                        <p class="text-muted mb-3">
+                                            Our platform leverages <strong>OpenAI-compatible DeepSeek API</strong> with
+                                            state-of-the-art natural language processing capabilities. The system
+                                            employs
+                                            sophisticated prompt engineering to ensure consistent, high-quality output
+                                            across all analysis dimensions. Every response is structured using JSON
+                                            schemas,
+                                            validated for completeness, and formatted for maximum readability.
+                                        </p>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-lightning-charge-fill text-warning fs-4 me-2"></i>
+                                                    <div>
+                                                        <strong>Fast Processing</strong>
+                                                        <br><small class="text-muted">Results in 30-60 seconds</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-shield-check-fill text-success fs-4 me-2"></i>
+                                                    <div>
+                                                        <strong>Secure & Private</strong>
+                                                        <br><small class="text-muted">Your data stays protected</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-arrow-repeat text-primary fs-4 me-2"></i>
+                                                    <div>
+                                                        <strong>Unlimited Revisions</strong>
+                                                        <br><small class="text-muted">Refine until perfect</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- How It Works -->
-        <section class="py-5">
+        <section class="py-5 bg-light">
             <div class="container py-5">
                 <div class="text-center mb-5">
                     <h2 class="display-5 fw-bold mb-3">How It Works</h2>
@@ -160,8 +426,11 @@
                             </div>
                             <h5 class="fw-bold mb-3">Describe Your Idea</h5>
                             <p class="text-muted">
-                                Enter a brief description of your business idea or concept. Just a few sentences are
-                                enough to get started.
+                                Input your business concept in natural language—no technical jargon required.
+                                Provide a brief overview (2-3 sentences minimum) describing what problem you're
+                                solving and your proposed solution. The more context you provide, the more
+                                tailored and accurate your analysis will be. You can include target market hints,
+                                technology preferences, or business model ideas to guide the AI.
                             </p>
                         </div>
                     </div>
@@ -171,10 +440,14 @@
                                 style="width: 60px; height: 60px; font-size: 24px;">
                                 2
                             </div>
-                            <h5 class="fw-bold mb-3">AI Analysis</h5>
+                            <h5 class="fw-bold mb-3">AI Analysis Engine</h5>
                             <p class="text-muted">
-                                Our AI engine processes your idea and generates detailed insights across six key
-                                business dimensions.
+                                Our DeepSeek-powered AI engine processes your input through multiple specialized
+                                analysis modules. Each module focuses on a specific business dimension—problem
+                                analysis, user research, feature planning, workflow design, risk assessment, and
+                                metrics definition. The system employs advanced prompt engineering and iterative
+                                refinement to ensure comprehensive, business-ready output. Processing typically
+                                completes within 30-60 seconds.
                             </p>
                         </div>
                     </div>
@@ -186,8 +459,12 @@
                             </div>
                             <h5 class="fw-bold mb-3">Review & Refine</h5>
                             <p class="text-muted">
-                                Get your comprehensive business analysis. Save, edit, and use it to validate and pitch
-                                your idea.
+                                Receive your comprehensive business analysis presented in a clean, organized
+                                interface. Each section is expandable and copyable for easy integration into
+                                presentations, documents, or planning tools. Save your analysis to your personal
+                                dashboard for future reference, comparison with other ideas, or iterative refinement.
+                                You can re-expand ideas anytime to get fresh perspectives or updated insights as
+                                your concept evolves.
                             </p>
                         </div>
                     </div>

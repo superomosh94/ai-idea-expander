@@ -16,6 +16,7 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const ideaRoutes = require('./routes/ideaRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorMiddleware');
@@ -95,6 +96,7 @@ app.get('/', (req, res) => {
 app.use('/auth', csrfProtection, authRoutes);
 app.use('/ideas', ideaRoutes);
 app.use('/api/v1', apiRoutes);
+app.use('/admin', adminRoutes);
 
 // 404 handler
 app.use((req, res, next) => {
