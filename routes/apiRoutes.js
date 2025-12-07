@@ -22,6 +22,7 @@ router.use(requireApiAuth);
 
 // Idea expansion
 router.post('/expand', apiController.expandIdea);
+router.post('/expand-prompt', apiController.expandPrompt);
 
 // Idea management
 router.get('/ideas', apiController.getIdeas);

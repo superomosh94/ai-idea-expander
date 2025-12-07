@@ -10,7 +10,7 @@ const { GROQ } = require('../config/constants');
 class GroqService {
     constructor() {
         this.apiKey = process.env.GROQ_API_KEY;
-        this.model = GROQ.MODEL || process.env.GROQ_MODEL || 'llama-3.1-70b-versatile';
+        this.model = GROQ.MODEL || process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
         this.maxTokens = GROQ.MAX_TOKENS || parseInt(process.env.GROQ_MAX_TOKENS) || 2000;
         this.temperature = GROQ.TEMPERATURE || parseFloat(process.env.GROQ_TEMPERATURE) || 0.7;
 
@@ -147,6 +147,81 @@ Provide a comprehensive analysis using the structured format with all six sectio
         }
 
         return sections;
+    }
+
+    /**
+     * Generate follow-up prompts for deeper exploration
+     */
+    generateFollowUpPrompts(ideaText, parsedSections) {
+        const prompts = [];
+
+        // Technical Deep Dive
+        if (parsedSections.features) {
+            prompts.push({
+                category: 'Technical',
+                title: 'Technical Architecture & Stack',
+                description: 'Explore the technical implementation, architecture patterns, and recommended technology stack.',
+                prompt: `Based on the idea: "${ideaText}"\n\nProvide a detailed technical architecture analysis including:\n- Recommended technology stack\n- System architecture diagram description\n- Database schema considerations\n- API design approach\n- Scalability considerations\n- Security best practices`,
+                icon: 'bi-cpu-fill',
+                color: 'info'
+            });
+        }
+
+        // Market Research
+        if (parsedSections.users) {
+            prompts.push({
+                category: 'Market',
+                title: 'Competitive Analysis & Market Research',
+                description: 'Analyze competitors, market size, and positioning strategy.',
+                prompt: `For the idea: "${ideaText}"\n\nConduct a comprehensive market analysis:\n- Identify top 5 competitors and their strengths/weaknesses\n- Estimate total addressable market (TAM)\n- Define unique value proposition\n- Suggest pricing strategy\n- Analyze market trends and opportunities`,
+                icon: 'bi-graph-up-arrow',
+                color: 'success'
+            });
+        }
+
+        // Go-to-Market Strategy
+        prompts.push({
+            category: 'Strategy',
+            title: 'Go-to-Market & Launch Plan',
+            description: 'Create a detailed launch strategy and marketing plan.',
+            prompt: `For the idea: "${ideaText}"\n\nDevelop a go-to-market strategy:\n- Pre-launch checklist\n- Marketing channels and tactics\n- User acquisition strategy\n- Launch timeline (3-6 months)\n- Budget allocation recommendations\n- Growth hacking techniques`,
+            icon: 'bi-rocket-takeoff-fill',
+            color: 'warning'
+        });
+
+        // Monetization Strategy
+        prompts.push({
+            category: 'Revenue',
+            title: 'Monetization & Revenue Models',
+            description: 'Explore different revenue streams and pricing strategies.',
+            prompt: `For the idea: "${ideaText}"\n\nAnalyze monetization opportunities:\n- Multiple revenue stream options\n- Pricing models (freemium, subscription, etc.)\n- Lifetime value (LTV) projections\n- Unit economics\n- Revenue milestones for next 12 months`,
+            icon: 'bi-cash-stack',
+            color: 'success'
+        });
+
+        // UX/UI Design
+        if (parsedSections.workflow) {
+            prompts.push({
+                category: 'Design',
+                title: 'UX/UI Design & User Experience',
+                description: 'Create detailed wireframes and user experience flow.',
+                prompt: `For the idea: "${ideaText}"\n\nDesign the user experience:\n- Key user flows and wireframe descriptions\n- Information architecture\n- Design system recommendations\n- Accessibility considerations\n- Mobile vs desktop priorities\n- Onboarding experience`,
+                icon: 'bi-palette-fill',
+                color: 'primary'
+            });
+        }
+
+        // Legal & Compliance
+        prompts.push({
+            category: 'Legal',
+            title: 'Legal, Compliance & Privacy',
+            description: 'Address legal requirements, data privacy, and compliance needs.',
+            prompt: `For the idea: "${ideaText}"\n\nIdentify legal and compliance requirements:\n- Data privacy regulations (GDPR, CCPA)\n- Terms of service essentials\n- Intellectual property protection\n- Required licenses or permits\n- Insurance needs\n- Liability considerations`,
+            icon: 'bi-shield-check',
+            color: 'danger'
+        });
+
+        return prompts;
     }
 
     /**

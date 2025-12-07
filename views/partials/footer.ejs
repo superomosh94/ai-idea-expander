@@ -1,48 +1,202 @@
-<footer class="bg-dark text-light py-5 mt-auto">
+<footer class="mt-auto"
+    style="background: linear-gradient(180deg, rgb(17, 24, 39) 0%, rgb(31, 41, 55) 100%); color: rgb(243, 244, 246); padding: 4rem 0 2rem 0; border-top: 2px solid rgb(99, 102, 241);">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">
-                    <i class="bi bi-lightbulb-fill text-warning"></i>
-                    AI Idea Expander
-                </h5>
-                <p class="text-muted">
-                    Transform your ideas into comprehensive business plans with AI-powered insights.
+        <div class="row g-4">
+            <!-- Brand Section -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-lightbulb-fill"
+                        style="color: rgb(252, 211, 77); font-size: 2rem; margin-right: 12px;"></i>
+                    <h5 class="fw-bold mb-0" style="color: rgb(255, 255, 255);">
+                        AI Idea Expander
+                    </h5>
+                </div>
+                <p style="color: rgb(156, 163, 175); line-height: 1.7; font-size: 0.95rem;">
+                    Transform your ideas into comprehensive business plans with AI-powered insights using Groq's
+                    ultra-fast technology.
                 </p>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="social-link"
+                        style="color: rgb(196, 181, 253); font-size: 1.5rem; transition: all 0.3s ease;">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link"
+                        style="color: rgb(147, 197, 253); font-size: 1.5rem; transition: all 0.3s ease;">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link"
+                        style="color: rgb(249, 115, 22); font-size: 1.5rem; transition: all 0.3s ease;">
+                        <i class="bi bi-github"></i>
+                    </a>
+                </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <h6 class="fw-bold">Quick Links</h6>
-                <ul class="list-unstyled">
-                    <li><a href="/" class="text-muted text-decoration-none">Home</a></li>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3" style="color: rgb(255, 255, 255); font-size: 1rem;">
+                    Quick Links
+                </h6>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-2">
+                        <a href="/"
+                            style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                            <i class="bi bi-house-fill me-2" style="color: rgb(134, 239, 172);"></i>Home
+                        </a>
+                    </li>
                     <% if (isAuthenticated) { %>
-                        <li><a href="/ideas/dashboard" class="text-muted text-decoration-none">Dashboard</a></li>
-                        <li><a href="/ideas/create" class="text-muted text-decoration-none">Create Idea</a></li>
+                        <li class="mb-2">
+                            <a href="/ideas/dashboard"
+                                style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                                <i class="bi bi-grid-fill me-2" style="color: rgb(147, 197, 253);"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="/ideas/create"
+                                style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                                <i class="bi bi-plus-circle-fill me-2" style="color: rgb(251, 146, 60);"></i>Create Idea
+                            </a>
+                        </li>
                         <% } else { %>
-                            <li><a href="/auth/login" class="text-muted text-decoration-none">Login</a></li>
-                            <li><a href="/auth/register" class="text-muted text-decoration-none">Register</a></li>
+                            <li class="mb-2">
+                                <a href="/auth/login"
+                                    style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                                    <i class="bi bi-box-arrow-in-right me-2"
+                                        style="color: rgb(196, 181, 253);"></i>Login
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="/auth/register"
+                                    style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                                    <i class="bi bi-person-plus-fill me-2"
+                                        style="color: rgb(134, 239, 172);"></i>Register
+                                </a>
+                            </li>
                             <% } %>
                 </ul>
             </div>
-            <div class="col-md-4 mb-4">
-                <h6 class="fw-bold">Powered By</h6>
-                <p class="text-muted">
-                    <i class="bi bi-cpu-fill text-info"></i> DeepSeek AI<br>
-                    Advanced language model for idea expansion
-                </p>
+
+            <!-- Resources -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3" style="color: rgb(255, 255, 255); font-size: 1rem;">
+                    Resources
+                </h6>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-2">
+                        <a href="#"
+                            style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                            <i class="bi bi-book-fill me-2" style="color: rgb(252, 211, 77);"></i>Documentation
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                            <i class="bi bi-code-slash me-2" style="color: rgb(147, 197, 253);"></i>API Reference
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                            <i class="bi bi-question-circle-fill me-2" style="color: rgb(196, 181, 253);"></i>Support
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            style="color: rgb(156, 163, 175); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block;">
+                            <i class="bi bi-shield-check me-2" style="color: rgb(134, 239, 172);"></i>Privacy Policy
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Powered By -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3" style="color: rgb(255, 255, 255); font-size: 1rem;">
+                    Powered By
+                </h6>
+                <div class="tech-badge mb-3"
+                    style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 16px; border-radius: 12px; border-left: 3px solid rgb(99, 102, 241);">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-cpu-fill me-2" style="color: rgb(147, 197, 253); font-size: 1.5rem;"></i>
+                        <strong style="color: rgb(255, 255, 255);">Groq AI</strong>
+                    </div>
+                    <p style="color: rgb(156, 163, 175); font-size: 0.875rem; margin: 0;">
+                        Ultra-fast LPU inference with Meta Llama 3.3 70B
+                    </p>
+                </div>
+                <div
+                    style="background: rgba(16, 185, 129, 0.1); padding: 12px; border-radius: 8px; border-left: 3px solid rgb(16, 185, 129);">
+                    <small style="color: rgb(134, 239, 172);">
+                        <i class="bi bi-lightning-charge-fill me-1"></i>
+                        <strong>2-5 second</strong> response time
+                    </small>
+                </div>
             </div>
         </div>
-        <hr class="bg-secondary">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="text-muted mb-0">
+
+        <hr style="border-color: rgba(99, 102, 241, 0.2); margin: 2rem 0;">
+
+        <!-- Bottom Bar -->
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p style="color: rgb(156, 163, 175); margin: 0; font-size: 0.9rem;">
                     &copy; <%= new Date().getFullYear() %> AI Idea Expander. All rights reserved.
                 </p>
             </div>
-            <div class="col-md-6 text-md-end">
-                <p class="text-muted mb-0">
-                    Made with <i class="bi bi-heart-fill text-danger"></i> using Node.js & Express
+            <div class="col-md-6 text-center text-md-end">
+                <p style="color: rgb(156, 163, 175); margin: 0; font-size: 0.9rem;">
+                    Made with <i class="bi bi-heart-fill" style="color: rgb(239, 68, 68);"></i> using
+                    <span style="color: rgb(134, 239, 172); font-weight: 600;">Node.js</span> &
+                    <span style="color: rgb(147, 197, 253); font-weight: 600;">Express</span>
                 </p>
             </div>
         </div>
     </div>
 </footer>
+
+<style>
+    /* Footer link hover effects */
+    .footer-links a:hover {
+        color: rgb(255, 255, 255) !important;
+        transform: translateX(5px);
+        text-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+    }
+
+    .footer-links a i {
+        transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+        transform: scale(1.2);
+    }
+
+    /* Social links hover */
+    .social-link:hover {
+        transform: translateY(-3px) scale(1.1);
+        filter: brightness(1.2);
+    }
+
+    /* Tech badge hover */
+    .tech-badge {
+        transition: all 0.3s ease;
+    }
+
+    .tech-badge:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%) !important;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        footer {
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            font-size: 1.75rem !important;
+        }
+    }
+</style>

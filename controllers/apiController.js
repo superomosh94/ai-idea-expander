@@ -1,5 +1,5 @@
 const ideaService = require('../services/ideaService');
-const deepseekService = require('../services/deepseekService');
+const groqService = require('../services/groqService');
 const { asyncHandler } = require('../middleware/errorMiddleware');
 
 /**
@@ -26,6 +26,47 @@ exports.expandIdea = asyncHandler(async (req, res) => {
             success: true,
             message: 'Idea expanded successfully',
             data: idea
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+// Expand custom prompt via API (for follow-up prompts)
+exports.expandPrompt = asyncHandler(async (req, res) => {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+        return res.status(400).json({
+            success: false,
+            message: 'Prompt is required'
+        });
+    }
+
+    try {
+        // Call Groq API with custom prompt
+        const client = new (require('openai'))({
+            baseURL: 'https://api.groq.com/openai/v1',
+            apiKey: process.env.GROQ_API_KEY
+        });
+
+        const completion = await client.chat.completions.create({
+            model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+            messages: [
+                { role: 'system', content: 'You are an expert business analyst and product strategist.' },
+                { role: 'user', content: prompt }
+            ],
+            max_tokens: parseInt(process.env.GROQ_MAX_TOKENS) || 2000,
+            temperature: parseFloat(process.env.GROQ_TEMPERATURE) || 0.7
+        });
+
+        res.json({
+            success: true,
+            result: completion.choices[0].message.content,
+            usage: completion.usage
         });
     } catch (error) {
         res.status(400).json({
@@ -133,9 +174,9 @@ exports.getStats = asyncHandler(async (req, res) => {
     });
 });
 
-// Test DeepSeek connection
+// Test Groq connection
 exports.testConnection = asyncHandler(async (req, res) => {
-    const result = await deepseekService.testConnection();
+    const result = await groqService.testConnection();
 
     if (result.success) {
         res.json({

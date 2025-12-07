@@ -1,24 +1,24 @@
-// Test DeepSeek API connection using OpenAI SDK
+// Test Groq API connection using OpenAI SDK
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const OpenAI = require('openai');
 
-async function testDeepSeekAPI() {
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+async function testGroqAPI() {
+    const apiKey = process.env.GROQ_API_KEY;
 
-    console.log('\n🔍 Testing DeepSeek API Connection using OpenAI SDK...\n');
+    console.log('\n🔍 Testing Groq API Connection using OpenAI SDK...\n');
     console.log('API Key:', apiKey ? `${apiKey.substring(0, 10)}...${apiKey.substring(apiKey.length - 4)}` : 'NOT SET');
-    console.log('Model:', process.env.DEEPSEEK_MODEL || 'deepseek-chat');
+    console.log('Model:', process.env.GROQ_MODEL || 'llama-3.3-70b-versatile');
 
-    if (!apiKey || apiKey === 'your-deepseek-api-key-here') {
+    if (!apiKey || apiKey === 'your-groq-api-key-here') {
         console.log('\n❌ API key not configured in .env file');
-        console.log('Please update DEEPSEEK_API_KEY in your .env file\n');
+        console.log('Please update GROQ_API_KEY in your .env file\n');
         process.exit(1);
     }
 
     try {
-        // Initialize OpenAI client with DeepSeek base URL (as per official docs)
+        // Initialize OpenAI client with Groq base URL
         const openai = new OpenAI({
-            baseURL: 'https://api.deepseek.com',
+            baseURL: 'https://api.groq.com/openai/v1',
             apiKey: apiKey
         });
 
@@ -29,7 +29,7 @@ async function testDeepSeekAPI() {
                 { role: 'system', content: 'You are a helpful assistant.' },
                 { role: 'user', content: 'Say "API test successful!" if you can read this.' }
             ],
-            model: process.env.DEEPSEEK_MODEL || 'deepseek-chat',
+            model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
             max_tokens: 50
         });
 
@@ -39,7 +39,7 @@ async function testDeepSeekAPI() {
         console.log('  - Prompt tokens:', completion.usage.prompt_tokens);
         console.log('  - Completion tokens:', completion.usage.completion_tokens);
         console.log('  - Total tokens:', completion.usage.total_tokens);
-        console.log('\n✨ Your DeepSeek API is configured correctly!\n');
+        console.log('\n✨ Your Groq API is configured correctly!\n');
 
     } catch (error) {
         console.log('\n❌ API Error:', error.message);
@@ -48,16 +48,16 @@ async function testDeepSeekAPI() {
             console.log('Status code:', error.status);
         }
 
-        if (error.message.includes('Insufficient')) {
-            console.log('\n💡 TIP: Your API key is valid but your account needs credits.');
-            console.log('   Visit: https://platform.deepseek.com/top_up');
-        } else if (error.message.includes('invalid')) {
+        if (error.message.includes('rate limit')) {
+            console.log('\n💡 TIP: You hit the rate limit. Wait a moment and try again.');
+            console.log('   Visit: https://console.groq.com/settings/limits');
+        } else if (error.message.includes('invalid') || error.message.includes('Unauthorized')) {
             console.log('\n💡 TIP: Your API key appears to be invalid.');
-            console.log('   Visit: https://platform.deepseek.com/api_keys');
+            console.log('   Visit: https://console.groq.com/keys');
         }
 
         console.log('\n');
     }
 }
 
-testDeepSeekAPI();
+testGroqAPI();

@@ -1,48 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm"
+    style="background: linear-gradient(135deg, rgb(99, 102, 241) 0%, rgb(118, 75, 162) 100%);">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/">
-            <i class="bi bi-lightbulb-fill"></i>
+        <a class="navbar-brand fw-bold" href="/" style="color: rgb(255, 255, 255); transition: transform 0.3s ease;">
+            <i class="bi bi-lightbulb-fill" style="color: rgb(252, 211, 77);"></i>
             AI Idea Expander
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            style="border-color: rgba(255, 255, 255, 0.3);">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <% if (isAuthenticated) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ideas/dashboard">
-                            <i class="bi bi-grid-fill"></i> Dashboard
+                        <a class="nav-link" href="/ideas/dashboard"
+                            style="color: rgba(255, 255, 255, 0.9); font-weight: 500; transition: all 0.3s ease;">
+                            <i class="bi bi-grid-fill me-1" style="color: rgb(134, 239, 172);"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ideas/create">
-                            <i class="bi bi-plus-circle-fill"></i> New Idea
+                        <a class="nav-link" href="/ideas/create"
+                            style="color: rgba(255, 255, 255, 0.9); font-weight: 500; transition: all 0.3s ease;">
+                            <i class="bi bi-plus-circle-fill me-1" style="color: rgb(251, 146, 60);"></i> New Idea
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            style="color: rgba(255, 255, 255, 0.9); font-weight: 500;">
+                            <i class="bi bi-person-circle me-1" style="color: rgb(196, 181, 253);"></i>
                             <%= user.name %>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/auth/profile">
-                                    <i class="bi bi-person"></i> Profile
-                                </a></li>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg"
+                            style="background: rgb(255, 255, 255); border: 1px solid rgba(99, 102, 241, 0.1); border-radius: 12px; overflow: hidden;">
                             <li>
-                                <hr class="dropdown-divider">
+                                <a class="dropdown-item d-flex align-items-center" href="/auth/profile"
+                                    style="color: rgb(55, 65, 81); padding: 12px 20px; transition: all 0.2s ease;">
+                                    <i class="bi bi-person me-2" style="color: rgb(99, 102, 241);"></i> Profile
+                                </a>
                             </li>
-                            <li><a class="dropdown-item" href="/auth/logout">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider" style="border-color: rgba(99, 102, 241, 0.1);">
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/auth/logout"
+                                    style="color: rgb(239, 68, 68); padding: 12px 20px; transition: all 0.2s ease;">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <% } else { %>
                         <li class="nav-item">
-                            <a class="nav-link" href="/auth/login">Login</a>
+                            <a class="nav-link" href="/auth/login"
+                                style="color: rgba(255, 255, 255, 0.9); font-weight: 500; transition: all 0.3s ease;">
+                                Login
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-light text-primary px-3 ms-2" href="/auth/register">
+                            <a class="nav-link btn ms-2 px-4" href="/auth/register"
+                                style="background: rgb(255, 255, 255); color: rgb(99, 102, 241); font-weight: 600; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                 Get Started
                             </a>
                         </li>
@@ -51,3 +67,52 @@
         </div>
     </div>
 </nav>
+
+<style>
+    /* Navbar hover effects */
+    .navbar-brand:hover {
+        transform: scale(1.05);
+    }
+
+    .nav-link:hover {
+        color: rgb(255, 255, 255) !important;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .dropdown-item:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%) !important;
+        border-radius: 8px;
+        margin: 2px 8px;
+        width: calc(100% - 16px);
+    }
+
+    .btn.nav-link:hover {
+        background: rgb(243, 244, 246) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Active nav item */
+    .nav-link.active {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 991px) {
+        .navbar-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .nav-link {
+            margin-bottom: 8px;
+            padding: 12px 16px !important;
+        }
+    }
+</style>

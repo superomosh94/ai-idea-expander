@@ -30,7 +30,7 @@ module.exports = {
 
     // Groq API
     GROQ: {
-        MODEL: process.env.GROQ_MODEL || 'llama-3.1-70b-versatile',
+        MODEL: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
         MAX_TOKENS: parseInt(process.env.GROQ_MAX_TOKENS) || 2000,
         TEMPERATURE: parseFloat(process.env.GROQ_TEMPERATURE) || 0.7,
         TIMEOUT: 30000 // 30 seconds

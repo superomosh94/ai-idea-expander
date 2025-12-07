@@ -37,9 +37,13 @@ class IdeaService {
         // Call Groq API
         const result = await groqService.expandIdea(idea.raw_idea);
 
+        // Generate follow-up prompts
+        const suggestedPrompts = groqService.generateFollowUpPrompts(idea.raw_idea, result.parsedSections);
+
         // Update idea with expanded content
         idea.expanded_content = result.expandedContent;
         idea.sections_parsed = result.parsedSections;
+        idea.suggested_prompts = suggestedPrompts; // Store suggested prompts
         idea.status = 'expanded';
         await idea.save();
 

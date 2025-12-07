@@ -42,10 +42,10 @@ async function setup() {
     const sessionSecret = generateRandomString(64);
     const csrfSecret = generateRandomString(32);
 
-    // DeepSeek API
-    console.log('\n🤖 DeepSeek API Configuration:');
-    console.log('Get your API key from: https://platform.deepseek.com/');
-    const deepseekKey = await question('DeepSeek API Key: ');
+    // Groq API
+    console.log('\n🤖 Groq API Configuration:');
+    console.log('Get your API key from: https://console.groq.com/keys');
+    const groqKey = await question('Groq API Key: ');
 
     // Update env content
     envContent = envContent.replace('DB_HOST=localhost', `DB_HOST=${dbHost}`);
@@ -55,7 +55,7 @@ async function setup() {
     envContent = envContent.replace('DB_PASSWORD=your_mysql_password', `DB_PASSWORD=${dbPassword}`);
     envContent = envContent.replace('SESSION_SECRET=your-super-secret-session-key-change-this-in-production', `SESSION_SECRET=${sessionSecret}`);
     envContent = envContent.replace('CSRF_SECRET=your-csrf-secret-key', `CSRF_SECRET=${csrfSecret}`);
-    envContent = envContent.replace('DEEPSEEK_API_KEY=your-deepseek-api-key-here', `DEEPSEEK_API_KEY=${deepseekKey}`);
+    envContent = envContent.replace('GROQ_API_KEY=your-groq-api-key-here', `GROQ_API_KEY=${groqKey}`);
 
     // Write .env file
     fs.writeFileSync(envPath, envContent);
