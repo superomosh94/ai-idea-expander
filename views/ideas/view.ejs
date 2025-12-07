@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> | AI Idea Expander</title>
+    <title>
+        <%= title %> | AI Idea Expander
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/enhanced-style.css">
 </head>
@@ -15,64 +18,289 @@
 <body class="d-flex flex-column min-vh-100">
     <%- include('../partials/navbar') %>
 
-    <main class="flex-grow-1 py-5" style="background: var(--gray-50);">
-        <div class="container">
-            <%- include('../partials/flash-messages') %>
+        <main class="flex-grow-1 py-5" style="background: var(--gray-50);">
+            <div class="container">
+                <%- include('../partials/flash-messages') %>
 
-            <!-- Idea Header -->
-            <div class="premium-card mb-4 fade-in-up">
-                <div class="card-body p-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <div class="d-flex align-items-center mb-3">
-                                <span class="badge <%= idea.status === 'expanded' ? 'bg-success' : 'bg-warning' %> me-2 px-3 py-2">
-                                    <%= idea.status.toUpperCase() %>
-                                </span>
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar me-1"></i>
-                                    Created <%= new Date(idea.created_at).toLocaleDateString() %>
-                                </small>
-                            </div>
-                            <h1 class="fw-bold mb-3" style="font-size: 2rem;">
-                                <%= idea.title %>
-                            </h1>
-                            <p class="text-muted mb-0" style="font-size: 1.1rem; line-height: 1.7;">
-                                <%= idea.raw_idea %>
-                            </p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <div class="d-flex gap-2 justify-content-md-end flex-wrap">
-                                <% if (idea.status === 'draft') { %>
-                                <a href="/ideas/<%= idea.id %>/expand" class="btn btn-success">
-                                    <i class="bi bi-stars me-2"></i>Expand with AI
-                                </a>
-                                <% } %>
-                                <a href="/ideas/<%= idea.id %>/edit" class="btn btn-outline-primary">
-                                    <i class="bi bi-pencil me-2"></i>Edit
-                                </a>
-                                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                    <!-- Idea Header -->
+                    <div class="premium-card mb-4 fade-in-up">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span
+                                            class="badge <%= idea.status === 'expanded' ? 'bg-success' : 'bg-warning' %> me-2 px-3 py-2">
+                                            <%= idea.status.toUpperCase() %>
+                                        </span>
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar me-1"></i>
+                                            Created <%= new Date(idea.created_at).toLocaleDateString() %>
+                                        </small>
+                                    </div>
+                                    <h1 class="fw-bold mb-3" style="font-size: 2rem;">
+                                        <%= idea.title %>
+                                    </h1>
+                                    <div class="text-muted mb-0" style="font-size: 1.1rem; line-height: 1.7;">
+                                        <%- marked(idea.raw_idea || '' ) %>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <div class="d-flex gap-2 justify-content-md-end flex-wrap">
+                                        <% if (idea.status==='draft' ) { %>
+                                            <a href="/ideas/<%= idea.id %>/expand" class="btn btn-success">
+                                                <i class="bi bi-stars me-2"></i>Expand with AI
+                                            </a>
+                                            <% } %>
+                                                <a href="/ideas/<%= idea.id %>/edit" class="btn btn-outline-primary">
+                                                    <i class="bi bi-pencil me-2"></i>Edit
+                                                </a>
+                                                <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <% if (idea.status==='expanded' && idea.expanded_content) { %>
+                        <div class="row">
+                            <!-- Main Content -->
+                            <div class="col-lg-12">
+                                <% const sectionTypes=['problem', 'users' , 'features' , 'workflow' , 'risks'
+                                    , 'metrics' ]; const sectionIcons={ problem: '🎯' , users: '👥' , features: '⚡' ,
+                                    workflow: '🔄' , risks: '⚠️' , metrics: '📊' }; const sectionTitles={
+                                    problem: 'Problem Statement' , users: 'Target Users' , features: 'Core Features' ,
+                                    workflow: 'User Workflow' , risks: 'Risks & Challenges' , metrics: 'Success Metrics'
+                                    }; %>
+
+                                    <% sectionTypes.forEach((type, index)=> { %>
+                                        <% if (idea.sections_parsed && idea.sections_parsed[type]) { %>
+                                            <div class="section-card <%= type %> fade-in-up"
+                                                style="animation-delay: <%= index * 0.1 %>s;">
+                                                <div class="section-header">
+                                                    <h3 class="section-title">
+                                                        <span class="section-icon">
+                                                            <%= sectionIcons[type] %>
+                                                        </span>
+                                                        <%= sectionTitles[type] %>
+                                                    </h3>
+                                                    <button class="copy-btn" onclick="copySection('<%= type %>', this)"
+                                                        data-section="<%= type %>">
+                                                        <i class="bi bi-clipboard"></i>
+                                                        <span>Copy</span>
+                                                    </button>
+                                                </div>
+                                                <div class="section-content" id="section-<%= type %>">
+                                                    <%- marked(idea.sections_parsed[type]) %>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% }); %>
+
+                                                    <!-- Copy All Button -->
+                                                    <div class="premium-card mb-4">
+                                                        <div class="card-body p-4 text-center">
+                                                            <button class="btn btn-lg btn-primary px-5"
+                                                                onclick="copyAllSections()">
+                                                                <i class="bi bi-clipboard-check me-2"></i>
+                                                                Copy Entire Analysis
+                                                            </button>
+                                                            <p class="text-muted small mb-0 mt-2">
+                                                                Copy all sections to clipboard for easy sharing
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Suggested Follow-up Prompts -->
+                                                    <% if (idea.suggested_prompts && idea.suggested_prompts.length> 0) {
+                                                        %>
+                                                        <div class="suggested-prompts fade-in-up"
+                                                            style="animation-delay: 0.6s;">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-between mb-4">
+                                                                <div>
+                                                                    <h3 class="fw-bold text-gradient-primary mb-1">
+                                                                        <i class="bi bi-lightbulb-fill me-2"></i>
+                                                                        Explore Deeper
+                                                                    </h3>
+                                                                    <p class="text-muted mb-0">AI-suggested prompts to
+                                                                        expand your idea further</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row g-3">
+                                                                <% idea.suggested_prompts.forEach((promptItem, idx)=> {
+                                                                    %>
+                                                                    <div class="col-md-6">
+                                                                        <div class="prompt-card"
+                                                                            style="animation-delay: <%= (idx + 6) * 0.1 %>s;">
+                                                                            <div class="prompt-header">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <i
+                                                                                        class="bi <%= promptItem.icon %> me-2 text-<%= promptItem.color %>"></i>
+                                                                                    <h5 class="prompt-title mb-0">
+                                                                                        <%= promptItem.title %>
+                                                                                    </h5>
+                                                                                </div>
+                                                                                <span class="prompt-badge">
+                                                                                    <%= promptItem.category %>
+                                                                                </span>
+                                                                            </div>
+                                                                            <p class="prompt-description">
+                                                                                <%= promptItem.description %>
+                                                                            </p>
+                                                                            <button class="prompt-btn"
+                                                                                data-prompt="<%= promptItem.prompt %>"
+                                                                                data-title="<%= promptItem.title %>"
+                                                                                onclick="runPrompt(this.getAttribute('data-prompt'), this.getAttribute('data-title'))">
+                                                                                <i class="bi bi-stars me-2"></i>
+                                                                                Generate Analysis
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% }); %>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <!-- Not Expanded Yet -->
+                            <div class="premium-card">
+                                <div class="card-body text-center py-5">
+                                    <i class="bi bi-stars text-warning" style="font-size: 5rem;"></i>
+                                    <h3 class="mt-4 mb-3">This idea hasn't been expanded yet</h3>
+                                    <p class="text-muted mb-4">
+                                        Use AI to generate comprehensive insights including problem analysis, target
+                                        users, features, workflow, risks, and success metrics.
+                                    </p>
+                                    <a href="/ideas/<%= idea.id %>/expand" class="btn btn-success btn-lg px-5">
+                                        <i class="bi bi-stars me-2"></i>Expand with AI Now
+                                    </a>
+                                </div>
+                            </div>
+                            <% } %>
+            </div>
+        </main>
+
+        <!-- Toast Container for Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Idea</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this idea? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="POST" action="/ideas/<%= idea.id %>/delete" class="d-inline">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <% if (idea.status === 'expanded' && idea.expanded_content) { %>
-                <div class="row">
-                <!-- Main Content -->
-                <div class="col-lg-12">
-                    <% 
-                    const sectionTypes = ['problem', 'users', 'features', 'workflow', 'risks', 'metrics'];
-                    const sectionIcons = {
-                        problem: '🎯',
-                        users: '👥',
-                        features: '⚡',
-                        workflow: '🔄',
-                        risks: '⚠️',
-                        metrics: '📊'
-                    };
+        <!-- Prompt Result Modal -->
+        <div class="modal fade" id="promptResultModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary text-white">
+                        <h5 class="modal-title" id="promptResultTitle">AI Analysis Result</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="promptLoadingState" class="text-center py-5">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="text-muted">Generating analysis... This may take a few moments.</p>
+                        </div>
+                        <div id="promptResultContent" class="d-none" style="max-height: 70vh; overflow-y: auto;">
+                            <!-- AI result will be injected here -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="copyPromptResult()">
+                            <i class="bi bi-clipboard me-2"></i>Copy Result
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../partials/footer') %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // Robust Copy Function (Synchronous execCommand fallback)
+                function copyTextToClipboard(text, onSuccess, onError) {
+                    try {
+                        var textArea = document.createElement("textarea");
+                        textArea.value = text;
+
+                        // Ensure it's not visible but part of DOM
+                        textArea.style.top = "0";
+                        textArea.style.left = "0";
+                        textArea.style.position = "fixed";
+                        textArea.style.opacity = "0";
+
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+
+                        var successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+
+                        if (successful) {
+                            if (onSuccess) onSuccess();
+                        } else {
+                            if (onError) onError(new Error("execCommand returned false"));
+                        }
+                    } catch (err) {
+                        if (onError) onError(err);
+                    }
+                }
+
+                // Copy Section Function
+                function copySection(sectionType, button) {
+                    const sectionElement = document.getElementById('section-' + sectionType);
+                    const text = sectionElement.innerText;
+
+                    copyTextToClipboard(text, () => {
+                        updateCopyButtonState(button);
+                        showToast('Copied to clipboard!', 'success');
+                    }, (err) => {
+                        console.error('Copy failed:', err);
+                        showToast('Failed to copy', 'danger');
+                    });
+                }
+
+                function updateCopyButtonState(button) {
+                    if (!button) return;
+                    const originalHTML = button.innerHTML;
+                    button.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Copied!</span>';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }
+
+                // Copy All Sections
+                function copyAllSections() {
+                    const sections = ['problem', 'users', 'features', 'workflow', 'risks', 'metrics'];
                     const sectionTitles = {
                         problem: 'Problem Statement',
                         users: 'Target Users',
@@ -81,301 +309,237 @@
                         risks: 'Risks & Challenges',
                         metrics: 'Success Metrics'
                     };
-                    %>
 
-                    <% sectionTypes.forEach((type, index) => { %>
-                        <% if (idea.sections_parsed && idea.sections_parsed[type]) { %>
-                            <div class="section-card <%= type %> fade-in-up" style="animation-delay: <%= index * 0.1 %>s;">
-                                <div class="section-header">
-                                    <h3 class="section-title">
-                                        <span class="section-icon"><%= sectionIcons[type] %></span>
-                                        <%= sectionTitles[type] %>
-                                    </h3>
-                                    <button class="copy-btn" onclick="copySection('<%= type %>', this)" data-section="<%= type %>">
-                                        <i class="bi bi-clipboard"></i>
-                                        <span>Copy</span>
-                                    </button>
-                                </div>
-                                <div class="section-content" id="section-<%= type %>">
-                                    <%- idea.sections_parsed[type].split('\n').map(line => {
-                                        if (line.trim().startsWith('-')) {
-                                            return '<li>' + line.trim().substring(1).trim() + '</li>';
-                                        } else if (line.trim()) {
-                                            return '<p>' + line.trim() + '</p>';
-                                        }
-                                        return '';
-                                    }).join('') %>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% }); %>
-
-                    <!-- Copy All Button -->
-                    <div class="premium-card mb-4">
-                        <div class="card-body p-4 text-center">
-                            <button class="btn btn-lg btn-primary px-5" onclick="copyAllSections()">
-                                <i class="bi bi-clipboard-check me-2"></i>
-                                Copy Entire Analysis
-                            </button>
-                            <p class="text-muted small mb-0 mt-2">
-                                Copy all sections to clipboard for easy sharing
-                            </p>
-                        </div>
+                    let fullText = '';
+                    sections.forEach(section => {
+                        const element = document.getElementById('section-' + section);
+                        if (element) {
+                            fullText += `## ${sectionTitles[section]}\n\n`;
+                            fullText += element.innerText + '\n\n';
+                        }
+        <!-- Manual Copy Modal -->
+        <div class="modal fade" id="manualCopyModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Manual Copy</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-
-                    <!-- Suggested Follow-up Prompts -->
-                    <% if (idea.suggested_prompts && idea.suggested_prompts.length > 0) { %>
-                    <div class="suggested-prompts fade-in-up" style="animation-delay: 0.6s;">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                                <h3 class="fw-bold text-gradient-primary mb-1">
-                                    <i class="bi bi-lightbulb-fill me-2"></i>
-                                    Explore Deeper
-                                </h3>
-                                <p class="text-muted mb-0">AI-suggested prompts to expand your idea further</p>
-                            </div>
-                        </div>
-
-                        <div class="row g-3">
-                            <% idea.suggested_prompts.forEach((promptItem, idx) => { %>
-                            <div class="col-md-6">
-                                <div class="prompt-card" style="animation-delay: <%= (idx + 6) * 0.1 %>s;">
-                                    <div class="prompt-header">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi <%= promptItem.icon %> me-2 text-<%= promptItem.color %>"></i>
-                                            <h5 class="prompt-title mb-0"><%= promptItem.title %></h5>
-                                        </div>
-                                        <span class="prompt-badge"><%= promptItem.category %></span>
-                                    </div>
-                                    <p class="prompt-description"><%= promptItem.description %></p>
-                                    <button class="prompt-btn" onclick="runPrompt(`<%= promptItem.prompt.replace(/`/g, '\\`').replace(/\n/g, '\\n') %>`, '<%= promptItem.title %>')">
-                                        <i class="bi bi-stars me-2"></i>
-                                        Generate Analysis
-                                    </button>
-                                </div>
-                            </div>
-                            <% }); %>
-                        </div>
+                    <div class="modal-body">
+                        <p class="text-muted mb-2">Automatic copy failed. Please copy the text manually:</p>
+                        <textarea class="form-control font-monospace" id="manualCopyText" rows="10" readonly 
+                                  onclick="this.select()" style="font-size: 0.9rem; background: var(--gray-50);"></textarea>
                     </div>
-                    <% } %>
-                </div>
-            </div>
-            <% } else { %>
-                <!-- Not Expanded Yet -->
-                <div class="premium-card">
-                    <div class="card-body text-center py-5">
-                        <i class="bi bi-stars text-warning" style="font-size: 5rem;"></i>
-                        <h3 class="mt-4 mb-3">This idea hasn't been expanded yet</h3>
-                        <p class="text-muted mb-4">
-                            Use AI to generate comprehensive insights including problem analysis,
-                            target users, features, workflow, risks, and success metrics.
-                        </p>
-                        <a href="/ideas/<%= idea.id %>/expand" class="btn btn-success btn-lg px-5">
-                            <i class="bi bi-stars me-2"></i>Expand with AI Now
-                        </a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="this.parentElement.parentElement.parentElement.parentElement.classList.remove('show'); document.body.classList.remove('modal-open'); document.querySelector('.modal-backdrop')?.remove();">Done</button>
                     </div>
-                </div>
-            <% } %>
-        </div>
-    </main>
-
-    <!-- Toast Container for Notifications -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Idea</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this idea? This action cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form method="POST" action="/ideas/<%= idea.id %>/delete" class="d-inline">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Prompt Result Modal -->
-    <div class="modal fade" id="promptResultModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-primary text-white">
-                    <h5 class="modal-title" id="promptResultTitle">AI Analysis Result</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="promptLoadingState" class="text-center py-5">
-                        <div class="spinner-border text-primary mb-3" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="text-muted">Generating analysis... This may take a few moments.</p>
-                    </div>
-                    <div id="promptResultContent" class="d-none" style="max-height: 70vh; overflow-y: auto;">
-                        <!-- AI result will be injected here -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="copyPromptResult()">
-                        <i class="bi bi-clipboard me-2"></i>Copy Result
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <% - include('../partials/footer') %>
 
-    <%- include('../partials/footer') %>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        //  Copy Section Function
-        function copySection(sectionType, button) {
-            const sectionElement = document.getElementById('section-' + sectionType);
-            const text = sectionElement.innerText;
-
-            navigator.clipboard.writeText(text).then(() => {
-                // Update button state
-                const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Copied!</span>';
-                button.classList.add('copied');
-
-                // Show toast notification
-                showToast('Copied to clipboard!', 'success');
-
-                // Reset button after 2 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalHTML;
-                    button.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                showToast('Failed to copy', 'danger');
-                console.error('Copy failed:', err);
-            });
-        }
-
-        // Copy All Sections
-        function copyAllSections() {
-            const sections = ['problem', 'users', 'features', 'workflow', 'risks', 'metrics'];
-            const sectionTitles = {
-                problem: 'Problem Statement',
-                users: 'Target Users',
-                features: 'Core Features',
-                workflow: 'User Workflow',
-                risks: 'Risks & Challenges',
-                metrics: 'Success Metrics'
-            };
-
-            let fullText = '';
-            sections.forEach(section => {
-                const element = document.getElementById('section-' + section);
-                if (element) {
-                    fullText += `## ${sectionTitles[section]}\n\n`;
-                    fullText += element.innerText + '\n\n';
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // 3-Layer Copy Strategy
+                function copyTextToClipboard(text, onSuccess) {
+                    // Layer 1: Modern Async API (Best)
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(text).then(onSuccess).catch(() => {
+                            // If Layer 1 fails, try Layer 2
+                            tryExecCommandFallback(text, onSuccess);
+                        });
+                    } else {
+                        // If API missing, try Layer 2
+                        tryExecCommandFallback(text, onSuccess);
+                    }
                 }
-            });
 
-            navigator.clipboard.writeText(fullText).then(() => {
-                showToast('Complete analysis copied to clipboard!', 'success');
-            }).catch(err => {
-                showToast('Failed to copy', 'danger');
-                console.error('Copy failed:', err);
-            });
-        }
+                // Layer 2: Legacy execCommand (Compatible)
+                function tryExecCommandFallback(text, onSuccess) {
+                    try {
+                        var textArea = document.createElement("textarea");
+                        textArea.value = text;
+                        
+                        // Ensure it's reachable but invisible (on-screen for iOS)
+                        textArea.style.position = "fixed";
+                        textArea.style.left = "0";
+                        textArea.style.top = "0";
+                        textArea.style.opacity = "0";
+                        textArea.style.pointerEvents = "none";
+                        textArea.setAttribute('readonly', '');
+                        
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        textArea.setSelectionRange(0, 99999); /* For mobile devices */
 
-        // Run Follow-up Prompt
-        async function runPrompt(promptText, title) {
-            const modal = new bootstrap.Modal(document.getElementById('promptResultModal'));
-            document.getElementById('promptResultTitle').textContent = title;
-            document.getElementById('promptLoadingState').classList.remove('d-none');
-            document.getElementById('promptResultContent').classList.add('d-none');
-            modal.show();
+                        var successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
 
-            try {
-                const response = await fetch('/api/expand-prompt', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ prompt: promptText })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById('promptLoadingState').classList.add('d-none');
-                    document.getElementById('promptResultContent').classList.remove('d-none');
-                    document.getElementById('promptResultContent').innerHTML = formatMarkdown(data.result);
-                } else {
-                    throw new Error(data.message || 'Failed to generate analysis');
+                        if (successful) {
+                            onSuccess();
+                        } else {
+                            // Layer 3: Manual Modal (Fail-safe)
+                            showManualCopyModal(text);
+                        }
+                    } catch (err) {
+                        console.error('Fallback failed:', err);
+                        showManualCopyModal(text);
+                    }
                 }
-            } catch (error) {
-                document.getElementById('promptLoadingState').innerHTML = `
+
+                // Layer 3: Manual Copy Modal
+                function showManualCopyModal(text) {
+                    // Use Bootstrap API if available, otherwise simple fallback
+                    const modalEl = document.getElementById('manualCopyModal');
+                    const textArea = document.getElementById('manualCopyText');
+                    if (modalEl && textArea && window.bootstrap) {
+                        textArea.value = text;
+                        const modal = new bootstrap.Modal(modalEl);
+                        modal.show();
+                        // Auto-select text
+                        setTimeout(() => {
+                            textArea.focus();
+                            textArea.select();
+                        }, 500);
+                    } else {
+                        alert("Could not copy text automatically. Please check permissions.");
+                    }
+                }
+
+                //  Copy Section Function
+                function copySection(sectionType, button) {
+                    const sectionElement = document.getElementById('section-' + sectionType);
+                    const text = sectionElement.innerText;
+                    
+                    copyTextToClipboard(text, () => {
+                        updateCopyButtonState(button);
+                        showToast('Copied to clipboard!', 'success');
+                    });
+                }
+
+                function updateCopyButtonState(button) {
+                    if (!button) return;
+                    const originalHTML = button.innerHTML;
+                    button.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Copied!</span>';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }
+
+                // Copy All Sections
+                function copyAllSections() {
+                    const sections = ['problem', 'users', 'features', 'workflow', 'risks', 'metrics'];
+                    const sectionTitles = {
+                        problem: 'Problem Statement',
+                        users: 'Target Users',
+                        features: 'Core Features',
+                        workflow: 'User Workflow',
+                        risks: 'Risks & Challenges',
+                        metrics: 'Success Metrics'
+                    };
+
+                    let fullText = '';
+                    sections.forEach(section => {
+                        const element = document.getElementById('section-' + section);
+                        if (element) {
+                            fullText += `## ${sectionTitles[section]}\n\n`;
+                            fullText += element.innerText + '\n\n';
+                        }
+                    });
+
+                    copyTextToClipboard(fullText, () => {
+                        showToast('Complete analysis copied to clipboard!', 'success');
+                    });
+                }
+
+                // Run Follow-up Prompt
+                async function runPrompt(promptText, title) {
+                    const modal = new bootstrap.Modal(document.getElementById('promptResultModal'));
+                    document.getElementById('promptResultTitle').textContent = title;
+                    document.getElementById('promptLoadingState').classList.remove('d-none');
+                    document.getElementById('promptResultContent').classList.add('d-none');
+                    modal.show();
+
+                    try {
+                        const response = await fetch('/api/expand-prompt', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ prompt: promptText })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            document.getElementById('promptLoadingState').classList.add('d-none');
+                            document.getElementById('promptResultContent').classList.remove('d-none');
+                            document.getElementById('promptResultContent').innerHTML = formatMarkdown(data.result);
+                        } else {
+                            throw new Error(data.message || 'Failed to generate analysis');
+                        }
+                    } catch (error) {
+                        document.getElementById('promptLoadingState').innerHTML = `
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle me-2"></i>
                         ${error.message}
                     </div>
                 `;
-            }
-        }
+                    }
+                }
 
-        // Copy Prompt Result
-        function copyPromptResult() {
-            const content = document.getElementById('promptResultContent');
-            const text = content.innerText;
+                // Copy Prompt Result
+                function copyPromptResult() {
+                    const content = document.getElementById('promptResultContent');
+                    const text = content.innerText;
 
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Analysis copied to clipboard!', 'success');
-            }).catch(err => {
-                showToast('Failed to copy', 'danger');
-            });
-        }
+                    copyTextToClipboard(text, () => {
+                        showToast('Analysis copied to clipboard!', 'success');
+                    });
+                }
 
-        // Format Markdown to HTML (simple version)
-        function formatMarkdown(text) {
-            if (!text) return '';
-            
-            return text
-                .replace(/^### (.+)$/gm, '<h4 class="fw-bold mt-4 mb-3">$1</h4>')
-                .replace(/^## (.+)$/gm, '<h3 class="fw-bold mt-4 mb-3">$1</h3>')
-                .replace(/^# (.+)$/gm, '<h2 class="fw-bold mt-4 mb-3">$1</h2>')
-                .replace(/^\- (.+)$/gm, '<li>$1</li>')
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/^(.+)$/gm, '<p>$1</p>');
-        }
+                // Format Markdown to HTML (simple version)
+                function formatMarkdown(text) {
+                    if (!text) return '';
 
-        // Toast Notification System
-        function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toastContainer');
-            const toastId = 'toast-' + Date.now();
+                    return text
+                        .replace(/^### (.+)$/gm, '<h4 class="fw-bold mt-4 mb-3">$1</h4>')
+                        .replace(/^## (.+)$/gm, '<h3 class="fw-bold mt-4 mb-3">$1</h3>')
+                        .replace(/^# (.+)$/gm, '<h2 class="fw-bold mt-4 mb-3">$1</h2>')
+                        .replace(/^\- (.+)$/gm, '<li>$1</li>')
+                        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/^(.+)$/gm, '<p>$1</p>');
+                }
 
-            const toast = document.createElement('div');
-            toast.className = 'custom-toast';
-            toast.id = toastId;
-            toast.innerHTML = `
+                // Toast Notification System
+                function showToast(message, type = 'info') {
+                    const toastContainer = document.getElementById('toastContainer');
+                    const toastId = 'toast-' + Date.now();
+
+                    const toast = document.createElement('div');
+                    toast.className = 'custom-toast';
+                    toast.id = toastId;
+                    toast.innerHTML = `
                 <i class="bi bi-${type === 'success' ? 'check-circle-fill text-success' : 'info-circle-fill text-primary'}"></i>
                 <span>${message}</span>
             `;
 
-            toastContainer.appendChild(toast);
+                    toastContainer.appendChild(toast);
 
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                toast.style.animation = 'slideOutRight 0.3s ease-in';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-    </script>
+                    // Auto remove after 3 seconds
+                    setTimeout(() => {
+                        toast.style.animation = 'slideOutRight 0.3s ease-in';
+                        setTimeout(() => toast.remove(), 300);
+                    }, 3000);
+                }
+            </script>
 </body>
 
 </html>

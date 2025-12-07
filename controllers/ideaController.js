@@ -182,10 +182,13 @@ exports.showIdea = asyncHandler(async (req, res) => {
         return res.redirect('/ideas/dashboard');
     }
 
+    const marked = require('marked');
+
     res.render('ideas/view', {
         title: idea.title,
         idea,
-        csrfToken: null
+        csrfToken: null,
+        marked: marked.parse
     });
 });
 
