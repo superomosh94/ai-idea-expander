@@ -13,12 +13,23 @@ class GroqService {
         this.model = GROQ.MODEL || process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
         this.maxTokens = GROQ.MAX_TOKENS || parseInt(process.env.GROQ_MAX_TOKENS) || 2000;
         this.temperature = GROQ.TEMPERATURE || parseFloat(process.env.GROQ_TEMPERATURE) || 0.7;
+        this._client = null;
+    }
 
-        // Initialize OpenAI client with Groq base URL
-        this.client = new OpenAI({
-            baseURL: 'https://api.groq.com/openai/v1',
-            apiKey: this.apiKey
-        });
+    /**
+     * Get or initialize the OpenAI client (lazy initialization)
+     */
+    getClient() {
+        if (!this._client) {
+            if (!this.apiKey) {
+                throw new Error('Groq API key is not configured. Please set GROQ_API_KEY in your .env file');
+            }
+            this._client = new OpenAI({
+                baseURL: 'https://api.groq.com/openai/v1',
+                apiKey: this.apiKey
+            });
+        }
+        return this._client;
     }
 
     /**
@@ -70,7 +81,7 @@ Provide a comprehensive analysis using the structured format with all six sectio
                 throw new Error('Groq API key is not configured');
             }
 
-            const completion = await this.client.chat.completions.create({
+            const completion = await this.getClient().chat.completions.create({
                 model: this.model,
                 messages: [
                     {
@@ -229,7 +240,7 @@ Provide a comprehensive analysis using the structured format with all six sectio
      */
     async testConnection() {
         try {
-            const completion = await this.client.chat.completions.create({
+            const completion = await this.getClient().chat.completions.create({
                 model: this.model,
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: 10
@@ -270,7 +281,7 @@ Provide a comprehensive analysis using the structured format with all six sectio
                 }
             ]`;
 
-            const completion = await this.client.chat.completions.create({
+            const completion = await this.getClient().chat.completions.create({
                 model: this.model,
                 messages: [
                     {
